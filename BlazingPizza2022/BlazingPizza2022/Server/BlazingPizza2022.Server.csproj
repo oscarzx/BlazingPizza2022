@@ -15,5 +15,9 @@
     <ProjectReference Include="..\Shared\BlazingPizza2022.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 
 </Project>
