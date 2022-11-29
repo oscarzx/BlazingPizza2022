@@ -1,3 +1,4 @@
+using BlazingPizza2022.Server.Models;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddDbContext<PizzaStoreContext>();
+
 var app = builder.Build();
+
+var ScopeFactory =
+    app.Services.GetRequiredService<IServiceScopeFactory>();
+using(var scope = ScopeFactory.CreateScope())
+{
+    var context = scope.ServiceProvider
+        .GetRequiredService<PizzaStoreContext>();
+    if(context.Specials.Count() == 0)
+    {
+        SeedData.Initialize(context);
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
